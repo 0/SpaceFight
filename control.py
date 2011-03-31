@@ -51,7 +51,7 @@ class Control():
                 game.player1.turnRight()
             if key[pygame.K_LALT]:
                 if game.player1.canShoot():
-                    game.addBullet(game.player1.ship.getGun(),game.player1.shoot())
+                    game.addBullet(game.player1.ship.getGun(),game.player1.shoot(),game.player1.getVelocity())
                 
         if game.player2.isAlive():
             if key[pygame.K_i]:
@@ -62,4 +62,4 @@ class Control():
                 game.player2.turnRight()
             if key[pygame.K_RCTRL]:
                 if game.player2.canShoot():
-                    game.addBullet(game.player2.ship.getGun(),game.player2.shoot())
+                    game.addBullet(game.player2.ship.getGun(),game.player2.shoot(),game.player2.getVelocity())

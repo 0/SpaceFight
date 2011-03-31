@@ -99,18 +99,18 @@ class GameObject():
         self.addForce(f)
         
     def turnLeft(self):
-        self.addAngularVelocity(1)
+        self.addAngularVelocity(0.35)
         
     def turnRight(self):
-        self.addAngularVelocity(-1)
+        self.addAngularVelocity(-0.35)
 
 
     def shoot(self):
-        ship_v = self.getForce()
+        ship_v = self.getVelocity()
         f = pymunk.Vec2d.normalized(
             pymunk.Vec2d(-(
                 self.getShape().get_points()[1]-self.getShape().get_points()[3])))
-        f = (f[0]*5500+ship_v[0],f[1]*5500+ship_v[1])
+        f = (f[0]*5500,f[1]*5500)
         return f
 
     def getGun(self):

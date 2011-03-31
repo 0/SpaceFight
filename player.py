@@ -16,19 +16,19 @@ class Player():
     def thrust(self):
         now = time.time()
         if time.time() > self.thrust_cooldown:
-            self.thrust_cooldown = now + 0.2
+            self.thrust_cooldown = now + 0.3
             self.ship.thrust()
         
     def turnLeft(self):
         now = time.time()
         if time.time() > self.turn_cooldown:
-            self.turn_cooldown = now + 0.2
+            self.turn_cooldown = now + 0.05
             self.ship.turnLeft()
         
     def turnRight(self):
         now = time.time()
         if time.time() > self.turn_cooldown:
-            self.turn_cooldown = now + 0.2
+            self.turn_cooldown = now + 0.05
             self.ship.turnRight()
 
     def shoot(self):
@@ -38,3 +38,6 @@ class Player():
     def canShoot(self):
         now = time.time()
         return (time.time() > self.shoot_cooldown)
+	
+    def getVelocity(self):
+        return self.ship.getVelocity()

@@ -39,17 +39,17 @@ class Game():
         self.space = pymunk.Space()
         self.space._set_gravity((0,0))
         
-        num_planetoids = random.randint(0,60)
+        num_planetoids = random.randint(0,90)
 
         startx = random.randint(150,200)
         starty = random.randint(550,900)
         
         self.player1 = player.Player(self.addShip("Ship1",
             (startx,starty),
-            random.randint(0,360)))
+            random.random()*6.28))
         self.player2 = player.Player(self.addShip("Ship2",
             (800-startx,1450-starty),
-            random.randint(0,360)))
+            random.random()*6.28))
         if num_planetoids <= 10:
             startx = 400
             starty = 700
@@ -78,6 +78,7 @@ class Game():
 
     def setActive(self,active):
         self.active = active
+		
     def setAI_mode(self,active):
         self.AI_mode = active
 
@@ -113,7 +114,8 @@ class Game():
         for i in range(0,int(x)):
             bullet = self.addBullet(pos,
                                     (90*random.randint(-40,39)+1,
-                                     90*random.randint(-40,40)+1))
+                                     90*random.randint(-40,40)+1),
+                                    (0,0))
 
     def addShip(self,name,pos,angle):
         ship = gameobject.GameObject(name,angle,pos)
@@ -121,8 +123,9 @@ class Game():
         self.space.add(ship.getBody(),ship.getShape())
         return ship
 
-    def addBullet(self,pos,impulse):
+    def addBullet(self,pos,impulse,velocity):
         bullet = gameobject.GameObject("Bullet",0,pos)
+	bullet.setVelocity(velocity)
         bullet.addForce(impulse)
         self.game_bullets.append(bullet)
         self.space.add(bullet.getBody(),bullet.getShape())
