@@ -32,7 +32,7 @@ class Player():
             self.ship.turnRight()
 
     def shoot(self):
-        self.shoot_cooldown = time.time() + 0.6
+        self.shoot_cooldown = time.time()+ 0.6
         return self.ship.shoot()
 
     def canShoot(self):
