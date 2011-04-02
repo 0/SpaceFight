@@ -44,12 +44,13 @@ class Game():
         startx = random.randint(150,200)
         starty = random.randint(550,900)
         
-        self.player1 = player.Player(self.addShip(1,
+        self.players = [] # "Player 1" will be the 0th player.
+        self.players.append(player.Player(self.addShip(1,
             (startx,starty),
-            random.random()*6.28))
-        self.player2 = player.Player(self.addShip(2,
+            random.random()*6.28)))
+        self.players.append(player.Player(self.addShip(2,
             (800-startx,1450-starty),
-            random.random()*6.28))
+            random.random()*6.28)))
         if num_planetoids <= 10:
             startx = 400
             starty = 700

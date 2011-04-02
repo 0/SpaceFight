@@ -42,24 +42,24 @@ class Control():
                     game.start()
             
     def gameControl(self,key,game,menu):
-        if game.player1.isAlive():
+        if game.players[0].isAlive():
             if key[pygame.K_w]:
-                game.player1.thrust()
+                game.players[0].thrust()
             if key[pygame.K_a]:
-                game.player1.turnLeft()
+                game.players[0].turnLeft()
             if key[pygame.K_d]:
-                game.player1.turnRight()
+                game.players[0].turnRight()
             if key[pygame.K_LALT]:
-                if game.player1.canShoot():
-                    game.addBullet(game.player1.ship.getGun(),game.player1.shoot(),game.player1.getVelocity())
+                if game.players[0].canShoot():
+                    game.addBullet(game.players[0].ship.getGun(),game.players[0].shoot(),game.players[0].getVelocity())
                 
-        if game.player2.isAlive():
+        if game.players[1].isAlive():
             if key[pygame.K_i]:
-               game.player2.thrust()
+               game.players[1].thrust()
             if key[pygame.K_j]:
-                game.player2.turnLeft()
+                game.players[1].turnLeft()
             if key[pygame.K_l]:
-                game.player2.turnRight()
+                game.players[1].turnRight()
             if key[pygame.K_RCTRL]:
-                if game.player2.canShoot():
-                    game.addBullet(game.player2.ship.getGun(),game.player2.shoot(),game.player2.getVelocity())
+                if game.players[1].canShoot():
+                    game.addBullet(game.players[1].ship.getGun(),game.players[1].shoot(),game.players[1].getVelocity())
