@@ -8,7 +8,7 @@ class Control():
     def update(self,menu,game):
         pygame.event.pump()
         for event in pygame.event.get():
-            if event.type == 12:
+            if event.type == pygame.QUIT:
                 return False
         key = pygame.key.get_pressed()
         if key[pygame.K_ESCAPE]:
