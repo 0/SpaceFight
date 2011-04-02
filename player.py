@@ -42,3 +42,17 @@ class Player():
 	
     def getVelocity(self):
         return self.ship.getVelocity()
+
+
+class HumanPlayer(Player):
+    def control(self, key):
+        if self.isAlive():
+            if key[self.keys['thrust']]:
+                self.thrust()
+            if key[self.keys['left']]:
+                self.turnLeft()
+            if key[self.keys['right']]:
+                self.turnRight()
+            if key[self.keys['shoot']]:
+                if self.canShoot():
+                    return [self.ship.getGun(), self.shoot(), self.getVelocity()]

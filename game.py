@@ -51,10 +51,10 @@ class Game():
         starty = random.randint(550,900)
         
         self.players = [] # "Player 1" will be the 0th player.
-        self.players.append(player.Player(self.addShip(1,
+        self.players.append(player.HumanPlayer(self.addShip(1,
             (startx,starty),
             random.random()*6.28), self.keys[0]))
-        self.players.append(player.Player(self.addShip(2,
+        self.players.append(player.HumanPlayer(self.addShip(2,
             (800-startx,1450-starty),
             random.random()*6.28), self.keys[1]))
         if num_planetoids <= 10:

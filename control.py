@@ -43,13 +43,7 @@ class Control():
             
     def gameControl(self,key,game,menu):
         for p in game.players:
-            if p.isAlive():
-                if key[p.keys['thrust']]:
-                    p.thrust()
-                if key[p.keys['left']]:
-                    p.turnLeft()
-                if key[p.keys['right']]:
-                    p.turnRight()
-                if key[p.keys['shoot']]:
-                    if p.canShoot():
-                        game.addBullet(p.ship.getGun(),p.shoot(),p.getVelocity())
+            bullet = p.control(key)
+
+            if bullet:
+                game.addBullet(*bullet)
