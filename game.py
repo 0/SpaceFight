@@ -7,6 +7,12 @@ import menu
 import time
 
 class Game():
+    # TODO: Should place this somewhere better.
+    keys = [{'thrust': pygame.K_w, 'left': pygame.K_a, 'right': pygame.K_d,
+             'shoot': pygame.K_LALT},
+            {'thrust': pygame.K_i, 'left': pygame.K_j, 'right': pygame.K_l,
+             'shoot': pygame.K_RCTRL}]
+
     def __init__(self,resources,menu):
         self.menu = menu
 
@@ -47,10 +53,10 @@ class Game():
         self.players = [] # "Player 1" will be the 0th player.
         self.players.append(player.Player(self.addShip(1,
             (startx,starty),
-            random.random()*6.28)))
+            random.random()*6.28), self.keys[0]))
         self.players.append(player.Player(self.addShip(2,
             (800-startx,1450-starty),
-            random.random()*6.28)))
+            random.random()*6.28), self.keys[1]))
         if num_planetoids <= 10:
             startx = 400
             starty = 700

@@ -23,6 +23,7 @@ class Menu():
         self.main_menu      = True
         self.initial_cursor = (100,500)
         self.cursor         = self.initial_cursor
+        # TODO: Run pygame.key.name on the actual key values.
         self.default_text   = "*********^Spacefuck^*********^^Space to Start^^Esc to Quit^^--------^Controls:^P1:^W: thrust^A: turn left^D: turn right^left alt: shoot^^P2:^I: thrust^J: turn left^L: turn right^right ctrl: shoot"
         self.text           = self.default_text
         self.next_type      = time.time()
