@@ -29,7 +29,8 @@ class Game():
         self.boundaries = pygame.Rect(75,50,650,480)
         self.bullet_boundaries = pygame.Rect(0,0,800,600)
 
-        self.AI_mode = False
+        # TODO: Associate with the Player objects.
+        self.AI_mode = [False, False]
 
     def start(self):
         self.ending = False
@@ -51,12 +52,11 @@ class Game():
         starty = random.randint(550,900)
         
         self.players = [] # "Player 1" will be the 0th player.
-        self.players.append(player.HumanPlayer(self.addShip(1,
-            (startx,starty),
-            random.random()*6.28), self.keys[0]))
-        self.players.append(player.HumanPlayer(self.addShip(2,
-            (800-startx,1450-starty),
-            random.random()*6.28), self.keys[1]))
+        self.players.append(self.genPlayer(1, (startx,starty), random.random()*6.28,
+            self.AI_mode[0], self.keys[0]))
+        self.players.append(self.genPlayer(2, (800-startx,1450-starty), random.random()*6.28,
+            self.AI_mode[1], self.keys[1]))
+
         if num_planetoids <= 10:
             startx = 400
             starty = 700
@@ -79,6 +79,13 @@ class Game():
             self.menu.startMainMenu()
             self.menu.addText(self.winner+" Wins^--------^^"+self.menu.default())
             
+    def genPlayer(self, p_num, pos, angle, ai, keys):
+        ship = self.addShip(p_num, pos, angle)
+
+        if ai:
+            return player.ComputerPlayer(ship, None)
+        else:
+            return player.HumanPlayer(ship, keys)
         
     def isActive(self):
         return self.active
@@ -86,9 +93,6 @@ class Game():
     def setActive(self,active):
         self.active = active
 		
-    def setAI_mode(self,active):
-        self.AI_mode = active
-
     def drawBall(self, game_object,game_surface):
         ball = game_object.getShape()
         pos = self.to_pygame(ball.body.position)

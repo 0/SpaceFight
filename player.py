@@ -1,3 +1,4 @@
+import math
 import gameobject
 import time
 
@@ -45,7 +46,7 @@ class Player():
 
 
 class HumanPlayer(Player):
-    def control(self, key):
+    def control(self, key, others):
         if self.isAlive():
             if key[self.keys['thrust']]:
                 self.thrust()
@@ -54,5 +55,35 @@ class HumanPlayer(Player):
             if key[self.keys['right']]:
                 self.turnRight()
             if key[self.keys['shoot']]:
+                if self.canShoot():
+                    return [self.ship.getGun(), self.shoot(), self.getVelocity()]
+
+
+class ComputerPlayer(Player):
+    aim_tolerance = 0.2
+    """Other player should be within this many radians on either side."""
+
+    def control(self, key, others):
+        other = others[0]
+
+        if self.isAlive():
+            # Full steam ahead!
+            self.thrust()
+
+            # Determine angle relative to other ship.
+            target_vector = self.ship.getPosition() - other.ship.getPosition()
+            target_angle = target_vector.get_angle()
+            own_angle = (self.ship.getAngle() - math.pi / 2)
+            relative_angle = (own_angle - target_angle) % (2 * math.pi)
+
+            if (relative_angle > self.aim_tolerance and
+                    relative_angle < (2 * math.pi - self.aim_tolerance)):
+                # Take the line...
+                if relative_angle > math.pi:
+                    self.turnLeft()
+                else:
+                    self.turnRight()
+            else:
+                # ... and fire!
                 if self.canShoot():
                     return [self.ship.getGun(), self.shoot(), self.getVelocity()]

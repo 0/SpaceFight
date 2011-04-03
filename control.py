@@ -27,12 +27,19 @@ class Control():
             if key[pygame.K_SPACE]:
                 menu.briefing()
                 self.next_press = time.time() + 0.35
-            if not game.AI_mode and key[pygame.K_HOME]:
-                menu.setText("^^AI Activated (Or it would be if it was implemented)")
-                game.setAI_mode(True)
-            if game.AI_mode and key[pygame.K_END]:
-                menu.SetText("^^AI Deactivated (Or it would be if it was implemented)")
-                game.setAI_mode(False)
+            # TODO: There should be a better way of doing this.
+            if not game.AI_mode[0] and key[pygame.K_q]:
+                game.AI_mode[0] = True
+                menu.setText("^^AI Activated for Player 1")
+            if game.AI_mode[0] and key[pygame.K_w]:
+                game.AI_mode[0] = False
+                menu.setText("^^AI Deactivated for Player 1")
+            if not game.AI_mode[1] and key[pygame.K_a]:
+                game.AI_mode[1] = True
+                menu.setText("^^AI Activated for Player 2")
+            if game.AI_mode[1] and key[pygame.K_s]:
+                game.AI_mode[1] = False
+                menu.setText("^^AI Deactivated for Player 2")
         else:
             if time.time() > self.next_press:
                 if key[pygame.K_SPACE]:
@@ -42,8 +49,9 @@ class Control():
                     game.start()
             
     def gameControl(self,key,game,menu):
-        for p in game.players:
-            bullet = p.control(key)
+        for i, p in enumerate(game.players):
+            # Pass in the keys pressed for HumanPlayer and a list of other players for ComputerPlayer.
+            bullet = p.control(key, game.players[:i] + game.players[i+1:])
 
             if bullet:
                 game.addBullet(*bullet)

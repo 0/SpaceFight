@@ -42,6 +42,9 @@ class GameObject():
     def getPosition(self):
         return self.getBody()._get_position()
 
+    def getAngle(self):
+        return self.getBody()._get_angle()
+
     def getRadius(self):
         return self.getShape()._get_radius()
 
