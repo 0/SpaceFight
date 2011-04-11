@@ -11,8 +11,13 @@ class Player():
         self.turn_cooldown = time.time()
         self.shoot_cooldown = time.time()
 
+        ship.player = self
+
     def isAlive(self):
         return self.alive
+
+    def die(self):
+        self.alive = False
 
     def thrust(self):
         now = time.time()

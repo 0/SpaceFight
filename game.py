@@ -219,6 +219,7 @@ class Game():
             if not self.boundaries.collidepoint(p):
                     self.burst(30,ship.getPosition())
                     self.game_ships.remove(ship)
+                    ship.player.die()
                     self.ending = True
                     self.endtime = time.time() + 3
 
