@@ -67,9 +67,13 @@ class ComputerPlayer(Player):
     """Other player should be within this many radians on either side."""
 
     def control(self, key, others):
-        other = others[0]
+        alive_others = [x for x in others if x.isAlive()]
+        if alive_others:
+            other = alive_others[0]
+        else:
+            other = None
 
-        if self.isAlive():
+        if self.isAlive() and other:
             # Full steam ahead!
             self.thrust()
 
