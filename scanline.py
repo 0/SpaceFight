@@ -8,7 +8,7 @@ class Scanline():
         self.columns = columns
     def update(self):
         lines = []
-        for i in range(0,self.speed):
+        for _ in xrange(self.speed):
             lines.append(((0,self.line),(self.columns,self.line)))
             self.line+= self.skip
             if self.line > self.rows:

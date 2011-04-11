@@ -121,11 +121,9 @@ class Ship(GameObject):
         return shape
 
     def thrust(self):
-        f = pymunk.Vec2d.normalized(
-            pymunk.Vec2d(-(
-                self.getShape().get_points()[1]-self.getShape().get_points()[3])))
-        f = (f[0]*150,f[1]*150)
-        self.addForce(f)
+        f = pymunk.Vec2d((self.getShape().get_points()[3]-self.getShape().get_points()[1])).normalized()
+        g = (f[0]*150,f[1]*150)
+        self.addForce(g)
 
     def turnLeft(self):
         self.addAngularVelocity(self.TURN_ACCELERATION)
@@ -134,11 +132,9 @@ class Ship(GameObject):
         self.addAngularVelocity(-self.TURN_ACCELERATION)
 
     def shoot(self):
-        f = pymunk.Vec2d.normalized(
-            pymunk.Vec2d(-(
-                self.getShape().get_points()[1]-self.getShape().get_points()[3])))
-        f = (f[0]*5500,f[1]*5500)
-        return f
+        f = pymunk.Vec2d((self.getShape().get_points()[3]-self.getShape().get_points()[1])).normalized()
+        g = (f[0]*5500,f[1]*5500)
+        return g
 
     def getGun(self):
         return self.getShape().get_points()[3]

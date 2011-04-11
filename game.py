@@ -61,7 +61,7 @@ class Game():
             starty = 700
             self.addPlanetoid((startx,starty))
         else:
-            for x in range(0,num_planetoids):
+            for _ in xrange(num_planetoids):
                 startx = random.randint(100,700)
                 starty = random.randint(550,850)
                 self.addAsteroid((startx,starty))
@@ -121,7 +121,7 @@ class Game():
         return int(p[0]), int(-p[1]+1000)
 
     def burst(self,x,pos):
-        for i in range(0,int(x)):
+        for _ in xrange(int(x)):
             self.addBullet(pos,
                            (90*random.randint(-40,39)+1,
                             90*random.randint(-40,40)+1),
@@ -156,12 +156,12 @@ class Game():
     def applyGravity(self,obj1,obj2):
         obj1p    = obj1.getPosition()
         obj2p    = obj2.getPosition()
-        distance = max([1,pymunk.Vec2d.get_dist_sqrd(obj1p,obj2p)])
+        distance = max(1, obj1p.get_dist_sqrd(obj2p))
         force    = ((obj1.getMass() * obj2.getMass()) / distance)*0.05
-        f        = pymunk.Vec2d.normalized(pymunk.Vec2d((obj1p[0]-obj2p[0]),(obj1p[1]-obj2p[1])))
-        f        = (f[0]*force,f[1]*force)
-        obj1.addForce(f)
-        obj2.addForce(f)
+        f        = pymunk.Vec2d((obj1p[0]-obj2p[0]),(obj1p[1]-obj2p[1])).normalized()
+        g        = (f[0]*force,f[1]*force)
+        obj1.addForce(g)
+        obj2.addForce(g)
         
     def update(self):
         

@@ -18,7 +18,7 @@ class Control():
             self.menuControl(key,menu,game)
             
         elif game.isActive():
-            self.gameControl(key,game,menu)
+            self.gameControl(key,game)
         
         return True
 
@@ -48,7 +48,7 @@ class Control():
                     game.setActive(True)
                     game.start()
             
-    def gameControl(self,key,game,menu):
+    def gameControl(self,key,game):
         for i, p in enumerate(game.players):
             # Pass in the keys pressed for HumanPlayer and a list of other players for ComputerPlayer.
             bullet = p.control(key, game.players[:i] + game.players[i+1:])
