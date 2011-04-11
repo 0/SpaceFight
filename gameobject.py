@@ -134,7 +134,6 @@ class Ship(GameObject):
         self.addAngularVelocity(-self.TURN_ACCELERATION)
 
     def shoot(self):
-        ship_v = self.getVelocity()
         f = pymunk.Vec2d.normalized(
             pymunk.Vec2d(-(
                 self.getShape().get_points()[1]-self.getShape().get_points()[3])))

@@ -3,7 +3,6 @@ import pymunk
 import gameobject
 import random
 import player
-import menu
 import time
 
 class Game():
@@ -123,10 +122,10 @@ class Game():
 
     def burst(self,x,pos):
         for i in range(0,int(x)):
-            bullet = self.addBullet(pos,
-                                    (90*random.randint(-40,39)+1,
-                                     90*random.randint(-40,40)+1),
-                                    (0,0))
+            self.addBullet(pos,
+                           (90*random.randint(-40,39)+1,
+                            90*random.randint(-40,40)+1),
+                           (0,0))
 
     def addShip(self,p_num,pos,angle):
         ship = gameobject.Ship(p_num,angle,pos)
@@ -159,7 +158,6 @@ class Game():
         obj2p    = obj2.getPosition()
         distance = max([1,pymunk.Vec2d.get_dist_sqrd(obj1p,obj2p)])
         force    = ((obj1.getMass() * obj2.getMass()) / distance)*0.05
-        r        = (0,0)
         f        = pymunk.Vec2d.normalized(pymunk.Vec2d((obj1p[0]-obj2p[0]),(obj1p[1]-obj2p[1])))
         f        = (f[0]*force,f[1]*force)
         obj1.addForce(f)

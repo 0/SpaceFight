@@ -1,5 +1,4 @@
 import math
-import gameobject
 import time
 
 class Player():
@@ -38,8 +37,7 @@ class Player():
         return self.ship.shoot()
 
     def canShoot(self):
-        now = time.time()
-        return (time.time() > self.shoot_cooldown)
+        return time.time() > self.shoot_cooldown
 	
     def getVelocity(self):
         return self.ship.getVelocity()
