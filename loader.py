@@ -12,11 +12,11 @@ class Load():
         self.blurbs    = self.loadBlurbs()
         
     def loadFont(self):
-        return pygame.font.Font("Font.ttf",12)
+        return pygame.font.Font("resources/Font.ttf",12)
 
     def loadTitles(self):
         titles = []
-        for line in open("titles.txt","r"):
+        for line in open("resources/titles.txt","r"):
             titles.append(line)
         return titles
     
@@ -31,7 +31,7 @@ class Load():
     
     def loadBlurbs(self):
         blurbs = []
-        for line in open("blurbs.txt","r"):
+        for line in open("resources/blurbs.txt","r"):
             blurbs.append(line)
         return blurbs
 
@@ -45,35 +45,35 @@ class Load():
 
     def loadForeground(self):
         border = pygame.Surface((800,600),pygame.SRCALPHA,32)
-        border.blit(pygame.image.load("Top.png"),(0,0))
-        border.blit(pygame.image.load("Bottom.png"),(0,500))
-        border.blit(pygame.image.load("Left.png"),(0,0))
-        border.blit(pygame.image.load("Right.png"),(700,0))
+        border.blit(pygame.image.load("resources/Top.png"),(0,0))
+        border.blit(pygame.image.load("resources/Bottom.png"),(0,500))
+        border.blit(pygame.image.load("resources/Left.png"),(0,0))
+        border.blit(pygame.image.load("resources/Right.png"),(700,0))
         border = border.convert_alpha()
         return border
 
     def loadBackground(self):
         background = pygame.Surface((800,600),pygame.SRCALPHA,32)
-        background.blit(pygame.image.load("Back.png"),(0,0))
+        background.blit(pygame.image.load("resources/Back.png"),(0,0))
         background = background.convert()
         background.set_alpha(55)
         return background
 
     def loadTriangle(self):
         triangle = pygame.Surface((40,40),pygame.SRCALPHA|pygame.RLEACCEL,32)
-        triangle.blit(pygame.image.load("Triangle.png"),(0,0))
+        triangle.blit(pygame.image.load("resources/Triangle.png"),(0,0))
         triangle = triangle.convert_alpha()
         return triangle
 
     def loadCircle(self):
         circle = pygame.Surface((40,40),pygame.SRCALPHA|pygame.RLEACCEL,32)
-        circle.blit(pygame.image.load("Circle.png"),(0,0))
+        circle.blit(pygame.image.load("resources/Circle.png"),(0,0))
         circle = circle.convert_alpha()
         return circle
 
     def loadDot(self):
         dot = pygame.Surface((6,6),pygame.SRCALPHA|pygame.RLEACCEL,32)
-        dot.blit(pygame.image.load("Dot.png"),(0,0))
+        dot.blit(pygame.image.load("resources/Dot.png"),(0,0))
         dot = dot.convert_alpha()
         return dot
 

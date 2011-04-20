@@ -13,7 +13,7 @@ import scanline
 pygame.init()
 
 #Pygame Initialization
-pygame.display.set_icon(pygame.image.load("Triangle.png"))
+pygame.display.set_icon(pygame.image.load("resources/Triangle.png"))
 pygame.display.set_caption("Spacefuck")
 screen    = pygame.display.set_mode((800,600))
 
