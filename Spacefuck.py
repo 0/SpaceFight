@@ -21,8 +21,6 @@ screen    = pygame.display.set_mode((800,600))
 clock     = pygame.time.Clock()
 topleft   = (0,0)
 
-to_render = pygame.Surface((800,600))
-
 resources = loader.Load()
 controls  = control.Control()
 scanlines = scanline.Scanline(4,2,800,600)
@@ -35,11 +33,11 @@ running   = True
 while(running):
     #--------------------------
     #Render Background
-    to_render.blit(resources.getBackground(),topleft)
+    screen.blit(resources.getBackground(),topleft)
     #--------------------------
     #Scanline
     for line in scanlines.update():
-        pygame.draw.line(to_render,(24,30,24),line[0],line[1],1)
+        pygame.draw.line(screen,(24,30,24),line[0],line[1],1)
     #--------------------------
     #Control Events
     running = controls.update(menu,game)
@@ -47,14 +45,13 @@ while(running):
     #States
     #----Menu and Text State
     if menu.isActive():
-        to_render.blit(menu.update(),topleft)
+        screen.blit(menu.update(),topleft)
     #----Game State
     elif game.isActive():
-         to_render.blit(game.update(),topleft)
+         screen.blit(game.update(),topleft)
     #--------------------------
     #Final Rendering
-    to_render.blit(resources.getForeground(),topleft)
-    screen.blit(to_render,topleft)
+    screen.blit(resources.getForeground(),topleft)
     pygame.display.flip()
     #--------------------------
     #Frame Control
