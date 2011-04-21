@@ -28,21 +28,21 @@ class Menu():
         self.text           = self.default_text
         self.next_type      = time.time()
 
-        
+
     def update(self):
         if len(self.text) > 0:
             now = time.time()
-            
+
             if now >= self.next_type:
                 char = self.text[0]
                 self.text = self.text[1:]
-                
+
                 if char == "^" or char =="\n":
                     self.buffer_surface.fill((0,0,0))
                     self.buffer_surface.blit(self.menu_surface,(0,-14))
                     self.cursorReturn()
-                    self.next_type = now + 0.45 
-                    
+                    self.next_type = now + 0.45
+
                 else:
                     self.buffer_surface.blit(self.resources.getFont().render
                                    (char, True, (0,255,0),(0,0,0)),self.cursor)
@@ -61,7 +61,7 @@ class Menu():
 
     def startMainMenu(self):
         self.main_menu = True
-    
+
     def setActive(self,active):
         self.active = active
 
@@ -70,19 +70,19 @@ class Menu():
 
     def addText(self, text):
         self.text += text
-        
+
     def cursorRight(self,n):
         self.cursor = (self.cursor[0]+(12*n),self.cursor[1])
 
     def cursorReturn(self):
         self.cursor = self.initial_cursor[0],self.cursor[1]
-        
+
     def clear(self):
         self.buffer_surface.fill((0,0,0))
         self.menu_surface.fill((0,0,0))
         self.cursorReturn()
         self.text = ""
-        
+
     def briefing(self):
         self.main_menu = False
         self.clear()

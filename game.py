@@ -16,7 +16,7 @@ class Game():
         self.menu = menu
 
         self.resources = resources
-        
+
         self.game_surface = pygame.Surface((800,600))
         self.game_surface.convert_alpha()
         self.game_surface.set_colorkey((0,0,0))
@@ -44,12 +44,12 @@ class Game():
 
         self.space = pymunk.Space()
         self.space._set_gravity((0,0))
-        
+
         num_planetoids = random.randint(0,90)
 
         startx = random.randint(150,200)
         starty = random.randint(550,900)
-        
+
         self.players = [] # "Player 1" will be the 0th player.
         self.players.append(self.genPlayer(1, (startx,starty), random.random()*6.28,
             self.AI_mode[0], self.keys[0]))
@@ -77,7 +77,7 @@ class Game():
             self.menu.setActive(True)
             self.menu.startMainMenu()
             self.menu.addText(self.winner+" Wins^--------^^"+self.menu.default())
-            
+
     def genPlayer(self, p_num, pos, angle, ai, keys):
         ship = self.addShip(p_num, pos, angle)
 
@@ -85,13 +85,13 @@ class Game():
             return player.ComputerPlayer(ship, None)
         else:
             return player.HumanPlayer(ship, keys)
-        
+
     def isActive(self):
         return self.active
 
     def setActive(self,active):
         self.active = active
-		
+
     def drawBall(self, game_object,game_surface):
         ball = game_object.getShape()
         pos = self.to_pygame(ball.body.position)
@@ -113,10 +113,10 @@ class Game():
 
     def distance(self, obj1,obj2):
         return pow((pow((obj2[0]-obj1[0]),2)+pow((obj2[0]-obj1[0]),2)),0.5)
-        
+
     def to_pygame(self,p):
         return int(p.x), int(-p.y+1000)
-    
+
     def to_pygame2(self,p):
         return int(p[0]), int(-p[1]+1000)
 
@@ -135,7 +135,7 @@ class Game():
 
     def addBullet(self,pos,impulse,velocity):
         bullet = gameobject.Bullet(pos)
-	bullet.setVelocity(velocity)
+        bullet.setVelocity(velocity)
         bullet.addForce(impulse)
         self.game_bullets.append(bullet)
         self.space.add(bullet.getBody(),bullet.getShape())
@@ -146,7 +146,7 @@ class Game():
         self.game_planetoids.append(planetoid)
         self.space.add(planetoid.getBody(),planetoid.getShape())
         return planetoid
-    
+
     def addAsteroid(self, pos):
         asteroid = gameobject.Asteroid(pos)
         self.game_planetoids.append(asteroid)
@@ -162,9 +162,9 @@ class Game():
         g        = (f[0]*force,f[1]*force)
         obj1.addForce(g)
         obj2.addForce(g)
-        
+
     def update(self):
-        
+
         self.space.step(0.08)
         self.game_surface.fill((0,0,0))
 
@@ -172,7 +172,7 @@ class Game():
             self.end()
 
         if time.time() > self.sudden_death:
-            
+
             self.sudden_deaths += 1
             self.space._set_gravity(
                 ((random.random()-0.5)*0.5*self.sudden_deaths,
@@ -180,42 +180,42 @@ class Game():
             self.sudden_death += 8 + self.sudden_deaths
             self.menu.addText("Sudden Death: Round "
                               +str(self.sudden_deaths)+"^")
- 
+
 
         for planetoid in self.game_planetoids:
-            p = self.to_pygame(planetoid.getPosition())   
+            p = self.to_pygame(planetoid.getPosition())
 
             if not self.boundaries.collidepoint(p):
                 self.burst(planetoid.getRadius(),planetoid.getPosition())
                 self.game_planetoids.remove(planetoid)
-                    
+
 ##            else:
 ##                for other_object in self.game_ships:
 ##                    self.applyGravity(planetoid,other_object)
-                    
+
 ##                for other_object in self.game_planetoids:
 ##                    self.applyGravity(planetoid,other_object)
-                    
+
 ##                for other_object in self.game_bullets:
 ##                    self.applyGravity(planetoid,other_object)
-                    
+
             self.drawBall(planetoid,self.game_surface)
-        
+
         for bullet in self.game_bullets:
             bullet.update()
             p = self.to_pygame(bullet.getBody().position)
 
             if not self.bullet_boundaries.collidepoint(p):
                 self.game_bullets.remove(bullet)
-                    
+
             else:
                 self.drawBall(bullet,self.game_surface)
-                    
+
         for ship in self.game_ships:
             ship.update()
             ship.reduceAngularVelocity()
             p = self.to_pygame(ship.getBody().position)
-            
+
             if not self.boundaries.collidepoint(p):
                     self.burst(30,ship.getPosition())
                     self.game_ships.remove(ship)
@@ -223,12 +223,12 @@ class Game():
                     self.ending = True
                     self.endtime = time.time() + 3
 
-                    
+
             else:
                 self.drawPoly(ship,self.game_surface)
-            
+
         self.drawBoundaries()
 
         self.drawText()
-        
+
         return self.game_surface
