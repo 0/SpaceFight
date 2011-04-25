@@ -45,10 +45,14 @@ class Load():
 
     def loadForeground(self):
         border = pygame.Surface((800,600),pygame.SRCALPHA,32)
-        border.blit(pygame.image.load("resources/Top.png"),(0,0))
-        border.blit(pygame.image.load("resources/Bottom.png"),(0,500))
-        border.blit(pygame.image.load("resources/Left.png"),(0,0))
-        border.blit(pygame.image.load("resources/Right.png"),(700,0))
+        border.blit(pygame.image.load("resources/border/NW.png"), (0, 0))
+        border.blit(pygame.image.load("resources/border/N.png"), (100, 0))
+        border.blit(pygame.image.load("resources/border/NE.png"), (700, 0))
+        border.blit(pygame.image.load("resources/border/W.png"), (0, 100))
+        border.blit(pygame.image.load("resources/border/E.png"), (700, 100))
+        border.blit(pygame.image.load("resources/border/SW.png"), (0, 500))
+        border.blit(pygame.image.load("resources/border/S.png"), (100, 500))
+        border.blit(pygame.image.load("resources/border/SE.png"), (700, 500))
         border = border.convert_alpha()
         return border
 
