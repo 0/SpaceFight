@@ -1,5 +1,7 @@
 import pygame
 
+import cfg
+
 class Load():
 
     def __init__(self):
@@ -42,23 +44,41 @@ class Load():
         #self.circle    = self.loadCircle()
         #self.dot       = self.loadDot()
 
-
     def loadForeground(self):
-        border = pygame.Surface((800,600),pygame.SRCALPHA,32)
-        border.blit(pygame.image.load("resources/border/NW.png"), (0, 0))
-        border.blit(pygame.image.load("resources/border/N.png"), (100, 0))
-        border.blit(pygame.image.load("resources/border/NE.png"), (700, 0))
-        border.blit(pygame.image.load("resources/border/W.png"), (0, 100))
-        border.blit(pygame.image.load("resources/border/E.png"), (700, 100))
-        border.blit(pygame.image.load("resources/border/SW.png"), (0, 500))
-        border.blit(pygame.image.load("resources/border/S.png"), (100, 500))
-        border.blit(pygame.image.load("resources/border/SE.png"), (700, 500))
-        border = border.convert_alpha()
-        return border
+        border = pygame.Surface((cfg.width, cfg.height),pygame.SRCALPHA,32)
+
+        # Since the border looks fine when stretched longitudinally, but not
+        # when compressed, try to keep the aspect ratio correct for the side
+        # which has been shrunk more.
+        side_ratios = [float(cfg.width) / cfg.DEFAULT_WIDTH,
+                       float(cfg.height) / cfg.DEFAULT_HEIGHT,
+                       1] # But don't exceed the default size.
+        thickness = int(min(side_ratios) * cfg.DEFAULT_BORDER_THICKNESS)
+        cfg.border_thickness = thickness
+
+        sizes = {'corner': (thickness, thickness),
+                 'horiz': (cfg.width - 2 * thickness, thickness),
+                 'vert': (thickness, cfg.height - 2 * thickness)}
+        pieces = [("NW", 'corner', (0, 0)),
+                  ("N", 'horiz', (thickness, 0)),
+                  ("NE", 'corner', (cfg.width - thickness, 0)),
+                  ("W", 'vert', (0, thickness)),
+                  ("E", 'vert', (cfg.width - thickness, thickness)),
+                  ("SW", 'corner', (0, cfg.height - thickness)),
+                  ("S", 'horiz', (thickness, cfg.height - thickness)),
+                  ("SE", 'corner', (cfg.width - thickness,
+                                    cfg.height - thickness))]
+
+        for location, kind, coords in pieces:
+            img = pygame.image.load("resources/border/%s.png" % (location))
+            img_scaled = pygame.transform.scale(img, sizes[kind])
+            border.blit(img_scaled, coords)
+
+        return border.convert_alpha()
 
     def loadBackground(self):
-        background = pygame.Surface((800,600),pygame.SRCALPHA,32)
-        background.blit(pygame.image.load("resources/Back.png"),(0,0))
+        back = pygame.image.load("resources/Back.png")
+        background = pygame.transform.scale(back, (cfg.width, cfg.height))
         background = background.convert()
         background.set_alpha(55)
         return background

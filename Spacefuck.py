@@ -5,6 +5,7 @@ import menu
 import game
 
 #Local Imports
+import cfg
 import loader
 import scanline
 
@@ -15,7 +16,7 @@ pygame.init()
 #Pygame Initialization
 pygame.display.set_icon(pygame.image.load("resources/Triangle.png"))
 pygame.display.set_caption("Spacefuck")
-screen    = pygame.display.set_mode((800,600))
+screen    = pygame.display.set_mode((cfg.width, cfg.height))
 
 #Constants and Resource Objects
 clock     = pygame.time.Clock()
@@ -23,7 +24,7 @@ topleft   = (0,0)
 
 resources = loader.Load()
 controls  = control.Control()
-scanlines = scanline.Scanline(4,2,800,600)
+scanlines = scanline.Scanline(4, 2, cfg.width, cfg.height)
 
 menu      = menu.Menu(resources)
 game      = game.Game(resources,menu)
