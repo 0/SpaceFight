@@ -105,10 +105,7 @@ class Game():
 
     def drawPoly(self, game_object,game_surface):
         poly = game_object.getShape()
-        i_points = poly.get_points()
-        c_points = []
-        for point in i_points:
-            c_points.append(self.to_pygame2(point))
+        c_points = [self.to_pygame2(point) for point in poly.get_points()]
         pygame.draw.lines(game_surface, (0,255,0), True, c_points, 1)
 
     def distance(self, obj1,obj2):

@@ -15,10 +15,7 @@ class Load():
         return pygame.font.Font("resources/Font.ttf",12)
 
     def loadTitles(self):
-        titles = []
-        for line in open("resources/titles.txt","r"):
-            titles.append(line)
-        return titles
+        return open("resources/titles.txt", "r").readlines()
 
     def getFont(self):
         return self.font
@@ -30,10 +27,7 @@ class Load():
         return self.blurbs
 
     def loadBlurbs(self):
-        blurbs = []
-        for line in open("resources/blurbs.txt","r"):
-            blurbs.append(line)
-        return blurbs
+        return open("resources/blurbs.txt", "r").readlines()
 
     def images(self):
         self.foreground= self.loadForeground()
