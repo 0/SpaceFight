@@ -12,6 +12,9 @@ class Game():
             {'thrust': pygame.K_i, 'left': pygame.K_j, 'right': pygame.K_l,
              'shoot': pygame.K_RCTRL}]
 
+    # XXX: Why 1000?
+    PYMUNK_HEIGHT = 1000
+
     def __init__(self,resources,menu):
         self.menu = menu
 
@@ -115,10 +118,10 @@ class Game():
         return pow((pow((obj2[0]-obj1[0]),2)+pow((obj2[0]-obj1[0]),2)),0.5)
 
     def to_pygame(self,p):
-        return int(p.x), int(-p.y+1000)
+        return int(p.x), int(-p.y + self.PYMUNK_HEIGHT)
 
     def to_pygame2(self,p):
-        return int(p[0]), int(-p[1]+1000)
+        return int(p[0]), int(-p[1] + self.PYMUNK_HEIGHT)
 
     def burst(self,x,pos):
         for _ in xrange(int(x)):
