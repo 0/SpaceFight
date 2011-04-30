@@ -23,10 +23,8 @@ class Menu():
         #Set Initial Parameters
         self.active         = True
         self.main_menu      = True
-        # TODO: Account for font height, since a really thin border can cause
-        # the letters to be partially off the screen.
-        self.initial_cursor = (cfg.border_thickness,
-                cfg.height - cfg.border_thickness)
+        self.initial_cursor = (cfg.border_thickness, cfg.height -
+                cfg.border_thickness - self.resources.getFont().get_height())
         self.cursor         = self.initial_cursor
         # TODO: Run pygame.key.name on the actual key values.
         self.default_text   = "*********^Spacefuck^*********^^Space to Start^^Esc to Quit^^--------^Controls:^P1:^W: thrust^A: turn left^D: turn right^left alt: shoot^^P2:^I: thrust^J: turn left^L: turn right^right ctrl: shoot"
