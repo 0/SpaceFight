@@ -16,7 +16,11 @@ pygame.init()
 #Pygame Initialization
 pygame.display.set_icon(pygame.image.load("resources/Triangle.png"))
 pygame.display.set_caption("Spacefuck")
-screen    = pygame.display.set_mode((cfg.width, cfg.height))
+
+mode_flags = 0
+if cfg.fullscreen:
+    mode_flags |= pygame.FULLSCREEN
+screen = pygame.display.set_mode((cfg.width, cfg.height), mode_flags)
 
 #Constants and Resource Objects
 clock     = pygame.time.Clock()
