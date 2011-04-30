@@ -69,19 +69,25 @@ class Bullet(GameObject):
 
 
 class Planetoid(GameObject):
+    MIN_RADIUS = 20
+    MAX_RADIUS = 35
+
     def __init__(self,pos):
         GameObject.__init__(self)
 
-        radius = random.randint(20,35)
+        radius = random.randint(self.MIN_RADIUS, self.MAX_RADIUS)
         mass = 12*radius*radius*random.randint(3,6)
         self.entity = self.addBall(mass,radius,pos)
 
 
 class Asteroid(GameObject):
+    MIN_RADIUS = 4
+    MAX_RADIUS = 10
+
     def __init__(self,pos):
         GameObject.__init__(self)
 
-        radius = random.randint(4,10)
+        radius = random.randint(self.MIN_RADIUS, self.MAX_RADIUS)
         mass = 12*radius*radius*random.randint(1,4)
         self.entity = self.addBall(mass,radius,pos)
 
