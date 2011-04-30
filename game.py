@@ -58,7 +58,14 @@ class Game():
         self.space = pymunk.Space()
         self.space._set_gravity((0,0))
 
-        num_planetoids = random.randint(0,90)
+        # The maximum asteroid density at which the game is still playable was
+        # experimentally determined to be approximately 9% of the playing area,
+        # regardless of its size or shape.
+        max_area = 0.09 * self.boundaries.width * self.boundaries.height
+        mean_radius = 0.5 * (gameobject.Asteroid.MIN_RADIUS +
+                gameobject.Asteroid.MAX_RADIUS)
+        max_planetoids = int(max_area / 3.14 / (mean_radius ** 2))
+        num_planetoids = random.randint(0, max_planetoids)
 
         # Starting coordinates within the boundaries rectangle.
         startx = random.randint(0, self.boundaries.width / 2)
