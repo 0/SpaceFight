@@ -84,7 +84,9 @@ class Game():
         self.players.append(self.genPlayer(2, p2_pos, random.random() * 6.28,
             self.AI_mode[1], self.keys[1]))
 
-        if num_planetoids <= 10:
+        # Use a single obstacle about 10% of the time, in cases when less than
+        # 1% of the playing area would be occupied by asteroids.
+        if 10 * num_planetoids < max_planetoids:
             startx = self.boundaries.x + self.boundaries.width / 2
             starty = self.PYMUNK_HEIGHT - (self.boundaries.y +
                     self.boundaries.height / 2)
