@@ -1,4 +1,5 @@
 import math
+import pymunk
 import time
 
 class Player():
@@ -66,6 +67,9 @@ class ComputerPlayer(Player):
     AIM_TOLERANCE = 0.2
     """Other player should be within this many radians on either side."""
 
+    STABILIZATION_CREEP_TOLERANCE = 0.3
+    """When trying to keep still, ignore velocities of magnitude up to this."""
+
     def control(self, key, others):
         if not self.isAlive():
             return
@@ -97,3 +101,21 @@ class ComputerPlayer(Player):
                 # ... and fire!
                 if self.canShoot():
                     return [self.ship.getGun(), self.shoot(), self.getVelocity()]
+        else:
+            # Stabilize.
+            v = self.ship.getVelocity()
+
+            if v.get_length() > self.STABILIZATION_CREEP_TOLERANCE:
+                own_angle = pymunk.Vec2d().unit()
+                own_angle.rotate(self.ship.getAngle())
+
+                # Rotate opposite to the direction of motion.
+                desired_angle = v.rotated(math.pi)
+                angle_difference = own_angle.get_angle_between(desired_angle)
+
+                if angle_difference > 0:
+                    self.turnLeft()
+                elif angle_difference < 0:
+                    self.turnRight()
+
+                self.thrust()
