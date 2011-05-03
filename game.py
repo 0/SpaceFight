@@ -102,7 +102,7 @@ class Game():
     def end(self):
         if time.time()> self.endtime:
             if self.winner == "":
-                if len(self.game_ships) == 0:
+                if not self.game_ships:
                     self.winner += "Nobody"
                 for ship in self.game_ships:
                     self.winner += "Player " + str(ship.getPlayerNumber())

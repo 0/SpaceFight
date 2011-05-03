@@ -33,7 +33,7 @@ class Menu():
 
 
     def update(self):
-        if len(self.text) > 0:
+        if self.text:
             now = time.time()
 
             if now >= self.next_type:
@@ -91,8 +91,9 @@ class Menu():
         self.clear()
         titles = self.resources.getTitles()
         blurbs = self.resources.getBlurbs()
-        self.addText(titles[random.randint(0,len(titles)-1)]+"^^")
-        self.addText(blurbs[random.randint(0,len(blurbs)-1)])
+        self.addText(random.choice(titles))
+        self.addText("^^") # Two line breaks.
+        self.addText(random.choice(blurbs))
 
     def default(self):
         return self.default_text
