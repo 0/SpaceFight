@@ -138,17 +138,11 @@ class Game():
 
     def drawPoly(self, game_object,game_surface):
         poly = game_object.getShape()
-        c_points = [self.to_pygame2(point) for point in poly.get_points()]
+        c_points = [self.to_pygame(point) for point in poly.get_points()]
         pygame.draw.lines(game_surface, (0,255,0), True, c_points, 1)
-
-    def distance(self, obj1,obj2):
-        return pow((pow((obj2[0]-obj1[0]),2)+pow((obj2[0]-obj1[0]),2)),0.5)
 
     def to_pygame(self,p):
         return int(p.x), int(-p.y + self.PYMUNK_HEIGHT)
-
-    def to_pygame2(self,p):
-        return int(p[0]), int(-p[1] + self.PYMUNK_HEIGHT)
 
     def burst(self,x,pos):
         for _ in xrange(int(x)):
@@ -183,16 +177,6 @@ class Game():
         self.space.add(asteroid.getBody(),asteroid.getShape())
         return asteroid
 
-    def applyGravity(self,obj1,obj2):
-        obj1p    = obj1.getPosition()
-        obj2p    = obj2.getPosition()
-        distance = max(1, obj1p.get_dist_sqrd(obj2p))
-        force    = ((obj1.getMass() * obj2.getMass()) / distance)*0.05
-        f        = pymunk.Vec2d((obj1p[0]-obj2p[0]),(obj1p[1]-obj2p[1])).normalized()
-        g        = (f[0]*force,f[1]*force)
-        obj1.addForce(g)
-        obj2.addForce(g)
-
     def update(self):
 
         self.space.step(0.08)
@@ -218,16 +202,6 @@ class Game():
             if not self.boundaries.collidepoint(p):
                 self.burst(planetoid.getRadius(),planetoid.getPosition())
                 self.game_planetoids.remove(planetoid)
-
-##            else:
-##                for other_object in self.game_ships:
-##                    self.applyGravity(planetoid,other_object)
-
-##                for other_object in self.game_planetoids:
-##                    self.applyGravity(planetoid,other_object)
-
-##                for other_object in self.game_bullets:
-##                    self.applyGravity(planetoid,other_object)
 
             self.drawBall(planetoid,self.game_surface)
 
