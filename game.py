@@ -3,9 +3,11 @@ import pymunk
 import random
 import time
 
+import ai
 import cfg
 import gameobject
 import player
+
 
 class Game():
     # TODO: Should place this somewhere better.
@@ -111,11 +113,11 @@ class Game():
             self.menu.startMainMenu()
             self.menu.addText(self.winner+" Wins^--------^^"+self.menu.default())
 
-    def genPlayer(self, p_num, pos, angle, ai, keys):
+    def genPlayer(self, p_num, pos, angle, AI_mode, keys):
         ship = self.addShip(p_num, pos, angle)
 
-        if ai:
-            return player.ComputerPlayer(ship, None)
+        if AI_mode:
+            return ai.ComputerPlayer(ship, None)
         else:
             return player.HumanPlayer(ship, keys)
 
