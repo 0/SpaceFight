@@ -14,24 +14,24 @@ class GameObject():
         body = pymunk.Body(mass, inertia)
         body.position = pos
         shape = pymunk.Circle(body, radius, (0,0))
-        shape._set_elasticity(0.75)
+        shape.elasticity = 0.75
         return shape
 
     def setVelocity(self,velocity):
-        self.getBody()._set_velocity(velocity)
+        self.getBody().velocity = velocity
 
     def getVelocity(self):
-        return self.getBody()._get_velocity()
+        return self.getBody().velocity
 
     def setForce(self,f):
-        self.getBody()._set_force(f)
+        self.getBody().force = f
 
     def addForce(self,f):
         self.force.x += f[0]
         self.force.y += f[1]
 
     def getForce(self):
-        return self.entity.body._get_force()
+        return self.entity.body.force
 
     def getBody(self):
         return self.entity.body
@@ -40,25 +40,25 @@ class GameObject():
         return self.entity
 
     def getPosition(self):
-        return self.getBody()._get_position()
+        return self.getBody().position
 
     def getAngle(self):
-        return self.getBody()._get_angle()
+        return self.getBody().angle
 
     def getRadius(self):
-        return self.getShape()._get_radius()
+        return self.getShape().radius
 
     def getMass(self):
-        return self.getBody()._get_mass()
+        return self.getBody().mass
 
     def getAngularVelocity(self):
-        return self.getBody()._get_angular_velocity()
+        return self.getBody().angular_velocity
 
     def reduceAngularVelocity(self):
-        self.getBody()._set_angular_velocity(self.getBody()._get_angular_velocity()*0.93)
+        self.getBody().angular_velocity *= 0.93
 
     def addAngularVelocity(self,x):
-        self.getBody()._set_angular_velocity(self.getAngularVelocity()+x)
+        self.getBody().angular_velocity += x
 
 
 class Bullet(GameObject):
@@ -112,18 +112,18 @@ class Ship(GameObject):
 
     def addPoly1(self,mass,angle,pos):
         body = pymunk.Body(mass, mass*5)
-        body._set_angle(angle)
+        body.angle = angle
         body.position = pos
         shape = pymunk.Poly(body,[(0,15),(-5,-10),(0,-10),(5,-10)])
-        shape._set_elasticity(0.75)
+        shape.elasticity = 0.75
         return shape
 
     def addPoly2(self,mass,angle,pos):
         body = pymunk.Body(mass, mass*5)
-        body._set_angle(angle)
+        body.angle = angle
         body.position = pos
         shape = pymunk.Poly(body,[(0,15),(-7,0),(0,-7),(7,0)])
-        shape._set_elasticity(0.75)
+        shape.elasticity = 0.75
         return shape
 
     def getGun(self):

@@ -56,7 +56,7 @@ class Game():
         self.winner = ""
 
         self.space = pymunk.Space()
-        self.space._set_gravity((0,0))
+        self.space.gravity = (0, 0)
 
         # The maximum asteroid density at which the game is still playable was
         # experimentally determined to be approximately 9% of the playing area,
@@ -188,9 +188,9 @@ class Game():
         if time.time() > self.sudden_death:
 
             self.sudden_deaths += 1
-            self.space._set_gravity(
-                ((random.random()-0.5)*0.5*self.sudden_deaths,
-                 (random.random()-0.5)*0.5*self.sudden_deaths))
+            self.space.gravity = (
+                    (random.random() - 0.5) * 0.5 * self.sudden_deaths,
+                    (random.random() - 0.5) * 0.5 * self.sudden_deaths)
             self.sudden_death += 8 + self.sudden_deaths
             self.menu.addText("Sudden Death: Round "
                               +str(self.sudden_deaths)+"^")
