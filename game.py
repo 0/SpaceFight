@@ -1,9 +1,11 @@
 import pygame
 import pymunk
-import gameobject
 import random
-import player
 import time
+
+import cfg
+import gameobject
+import player
 
 class Game():
     # TODO: Should place this somewhere better.
@@ -12,12 +14,15 @@ class Game():
             {'thrust': pygame.K_i, 'left': pygame.K_j, 'right': pygame.K_l,
              'shoot': pygame.K_RCTRL}]
 
+    # XXX: Why 1000?
+    PYMUNK_HEIGHT = 1000
+
     def __init__(self,resources,menu):
         self.menu = menu
 
         self.resources = resources
 
-        self.game_surface = pygame.Surface((800,600))
+        self.game_surface = pygame.Surface((cfg.width, cfg.height))
         self.game_surface.convert_alpha()
         self.game_surface.set_colorkey((0,0,0))
 
@@ -25,8 +30,16 @@ class Game():
 
         pymunk.init_pymunk()
 
-        self.boundaries = pygame.Rect(75,50,650,480)
-        self.bullet_boundaries = pygame.Rect(0,0,800,600)
+        border_ratio = (float(cfg.border_thickness) /
+                cfg.DEFAULT_BORDER_THICKNESS)
+        edge_distances = dict([(k, int(v * border_ratio)) for (k, v) in
+                cfg.DEFAULT_BOUNDS.items()])
+
+        self.boundaries = pygame.Rect(edge_distances['left'],
+                edge_distances['top'],
+                cfg.width - edge_distances['left'] - edge_distances['right'],
+                cfg.height - edge_distances['top'] - edge_distances['bottom'])
+        self.bullet_boundaries = pygame.Rect(0, 0, cfg.width, cfg.height)
 
         # TODO: Associate with the Player objects.
         self.AI_mode = [False, False]
@@ -45,25 +58,45 @@ class Game():
         self.space = pymunk.Space()
         self.space._set_gravity((0,0))
 
-        num_planetoids = random.randint(0,90)
+        # The maximum asteroid density at which the game is still playable was
+        # experimentally determined to be approximately 9% of the playing area,
+        # regardless of its size or shape.
+        max_area = 0.09 * self.boundaries.width * self.boundaries.height
+        mean_radius = 0.5 * (gameobject.Asteroid.MIN_RADIUS +
+                gameobject.Asteroid.MAX_RADIUS)
+        max_planetoids = int(max_area / 3.14 / (mean_radius ** 2))
+        num_planetoids = random.randint(0, max_planetoids)
 
-        startx = random.randint(150,200)
-        starty = random.randint(550,900)
+        # Starting coordinates within the boundaries rectangle.
+        startx = random.randint(0, self.boundaries.width / 2)
+        starty = random.randint(0, self.boundaries.height)
+
+        # Absolute (pymunk) starting coordinates.
+        p1_pos = (self.boundaries.x + startx,
+                  self.PYMUNK_HEIGHT - self.boundaries.y - starty)
+        p2_pos = (self.boundaries.x + self.boundaries.width - startx,
+                  self.PYMUNK_HEIGHT - self.boundaries.y -
+                  self.boundaries.height + starty)
 
         self.players = [] # "Player 1" will be the 0th player.
-        self.players.append(self.genPlayer(1, (startx,starty), random.random()*6.28,
+        self.players.append(self.genPlayer(1, p1_pos, random.random() * 6.28,
             self.AI_mode[0], self.keys[0]))
-        self.players.append(self.genPlayer(2, (800-startx,1450-starty), random.random()*6.28,
+        self.players.append(self.genPlayer(2, p2_pos, random.random() * 6.28,
             self.AI_mode[1], self.keys[1]))
 
-        if num_planetoids <= 10:
-            startx = 400
-            starty = 700
-            self.addPlanetoid((startx,starty))
+        # Use a single obstacle about 10% of the time, in cases when less than
+        # 1% of the playing area would be occupied by asteroids.
+        if 10 * num_planetoids < max_planetoids:
+            startx = self.boundaries.x + self.boundaries.width / 2
+            starty = self.PYMUNK_HEIGHT - (self.boundaries.y +
+                    self.boundaries.height / 2)
+            self.addPlanetoid((startx, starty))
         else:
             for _ in xrange(num_planetoids):
-                startx = random.randint(100,700)
-                starty = random.randint(550,850)
+                startx = (self.boundaries.x +
+                        random.randint(0, self.boundaries.width))
+                starty = self.PYMUNK_HEIGHT - (self.boundaries.y +
+                        random.randint(0, self.boundaries.height))
                 self.addAsteroid((startx,starty))
 
     def end(self):
@@ -112,10 +145,10 @@ class Game():
         return pow((pow((obj2[0]-obj1[0]),2)+pow((obj2[0]-obj1[0]),2)),0.5)
 
     def to_pygame(self,p):
-        return int(p.x), int(-p.y+1000)
+        return int(p.x), int(-p.y + self.PYMUNK_HEIGHT)
 
     def to_pygame2(self,p):
-        return int(p[0]), int(-p[1]+1000)
+        return int(p[0]), int(-p[1] + self.PYMUNK_HEIGHT)
 
     def burst(self,x,pos):
         for _ in xrange(int(x)):
