@@ -2,8 +2,7 @@ Spacefuck was written in Python 2.6.6, originally on a Windows environment.  As 
 
 I've had Spacefuck run at a full 60fps on an old AMD Athlon XP 2.5Ghz machine with a Radeon 9600 and ample memory under Windows 7.  This should hopefully be an indication that most people will get suitable performance out of the game.  It's only drawing five images and about a hundred circles on a 800 x 600 window.  It really isn't that demanding.
 
-Spacefuck uses pygame 1.91 and a previous version of pymunk, which is a python wrapper for Chipmunk, a C based physics library.
-Given some time, I'll make the one or two changes that will adhere to the changes made in the new pymunk (2.1.0, as of now).
+Spacefuck uses pygame 1.91 and the current version of pymunk (2.1.0), which is a python wrapper for Chipmunk, a C based physics library.
 
 http://pygame.org
 
