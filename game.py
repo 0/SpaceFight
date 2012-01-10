@@ -23,7 +23,7 @@ class Game():
 
         self.active = False
 
-        pymunk.init_pymunk()
+#       pymunk.init_pymunk() # No longer needed: Latest version of pymunk self initializes.
 
         self.boundaries = pygame.Rect(75,50,650,480)
         self.bullet_boundaries = pygame.Rect(0,0,800,600)
