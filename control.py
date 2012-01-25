@@ -4,7 +4,7 @@ import time
 class Control():
     def __init__(self):
         pass
-    
+
     def update(self,menu,game):
         pygame.event.pump()
         for event in pygame.event.get():
@@ -13,13 +13,13 @@ class Control():
         key = pygame.key.get_pressed()
         if key[pygame.K_ESCAPE]:
             return False
-        
+
         if menu.isActive():
             self.menuControl(key,menu,game)
-            
+
         elif game.isActive():
             self.gameControl(key,game)
-        
+
         return True
 
     def menuControl(self,key,menu,game):
@@ -47,7 +47,7 @@ class Control():
                     menu.clear()
                     game.setActive(True)
                     game.start()
-            
+
     def gameControl(self,key,game):
         for i, p in enumerate(game.players):
             # Pass in the keys pressed for HumanPlayer and a list of other players for ComputerPlayer.
