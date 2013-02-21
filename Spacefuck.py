@@ -1,5 +1,8 @@
 #!/usr/bin/env python2
 
+#Library Imports
+import sys
+
 #Pygame Imports
 import pygame
 import control
@@ -16,9 +19,6 @@ import scanline
 pygame.init()
 
 #Pygame Initialization
-pygame.display.set_icon(pygame.image.load("resources/Triangle.png"))
-pygame.display.set_caption("Spacefuck")
-
 mode_flags = 0
 if cfg.fullscreen:
     mode_flags |= pygame.FULLSCREEN
@@ -41,6 +41,10 @@ game      = game.Game(resources,menu)
 running   = 1
 framerate = cfg.DEFAULT_FRAMERATE
 background= resources.getBackground()
+
+#Set Captions and Icons
+pygame.display.set_icon(resources.getTriangle())
+pygame.display.set_caption("Spacefuck")
 
 while(running):
     running += controls.update(menu,game)
@@ -70,3 +74,9 @@ while(running):
     else:
         pygame.time.wait(500)
 pygame.quit()
+
+try:
+    sys.exit("Good night")
+except SystemExit:
+    # Cleanup
+    print("Good night")

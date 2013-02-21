@@ -14,10 +14,20 @@ class Load():
         self.blurbs    = self.loadBlurbs()
 
     def loadFont(self):
-        return pygame.font.Font("resources/Font.ttf",12)
-
+        try:
+            fontObject = pygame.font.Font("resources/Font.ttf",12)
+            return fontObject
+        except:
+            print "Couldn't find font."
+            return pygame.font.SysFont("Console", 12, bold=False, italic=False)
+        
     def loadTitles(self):
-        return open("resources/titles.txt", "r").readlines()
+        try:
+            titles = open("resources/titles.txt", "r").readlines()
+            return titles
+        except:
+            print "Couldn't find titles."
+            return ["Title"]
 
     def getFont(self):
         return self.font
@@ -29,12 +39,17 @@ class Load():
         return self.blurbs
 
     def loadBlurbs(self):
-        return open("resources/blurbs.txt", "r").readlines()
+        try:
+            blurbs = open("resources/blurbs.txt", "r").readlines()
+            return blurbs
+        except:
+            print "Couldn't find blurbs."
+            return ["Blurb"]
 
     def images(self):
         self.foreground= self.loadForeground()
         self.background= self.loadBackground()
-        #self.triangle  = self.loadTriangle()
+        self.triangle  = self.loadTriangle()
         #self.circle    = self.loadCircle()
         #self.dot       = self.loadDot()
 
@@ -64,23 +79,33 @@ class Load():
                                     cfg.height - thickness))]
 
         for location, kind, coords in pieces:
-            img = pygame.image.load("resources/border/%s.png" % (location))
-            img_scaled = pygame.transform.scale(img, sizes[kind])
-            border.blit(img_scaled, coords)
+            try:
+                img = pygame.image.load("resources/border/%s.png" % (location))
+                img_scaled = pygame.transform.scale(img, sizes[kind])
+                border.blit(img_scaled, coords)
+            except:
+                print "Couldn't find %s.png" % (location)
 
         return border.convert_alpha()
 
     def loadBackground(self):
-        back = pygame.image.load("resources/Back.png")
-        background = pygame.transform.scale(back, (cfg.width, cfg.height))
-        background = background.convert()
-        background.set_alpha(55)
+        background = pygame.Surface((cfg.width, cfg.height),pygame.SRCALPHA,32)
+        try:
+            back = pygame.image.load("resources/Back.png")
+            background = pygame.transform.scale(back, (cfg.width, cfg.height))
+            background = background.convert()
+            background.set_alpha(55)
+        except:
+            background.fill(cfg.FALLBACK_BACKGROUND_COLOR)
         return background
 
     def loadTriangle(self):
         triangle = pygame.Surface((40,40),pygame.SRCALPHA|pygame.RLEACCEL,32)
-        triangle.blit(pygame.image.load("resources/Triangle.png"),(0,0))
-        triangle = triangle.convert_alpha()
+        try:
+            triangle.blit(pygame.image.load("resources/Triangle.png"),(0,0))
+            triangle = triangle.convert_alpha()
+        except:
+            pass
         return triangle
 
     def loadCircle(self):
@@ -100,3 +125,6 @@ class Load():
 
     def getForeground(self):
         return self.foreground
+
+    def getTriangle(self):
+        return self.triangle
