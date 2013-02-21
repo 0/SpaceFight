@@ -30,37 +30,43 @@ topleft   = (0,0)
 
 resources = loader.Load()
 controls  = control.Control()
-scanlines = scanline.Scanline(4, 2, cfg.width, cfg.height)
+scanlines = scanline.Scanline(  cfg.scanlineSkip,
+                                cfg.scanlineSpeed,
+                                cfg.width,
+                                cfg.height,
+                                cfg.scanlineColor)
 
 menu      = menu.Menu(resources)
 game      = game.Game(resources,menu)
-
-running   = True
+running   = 1
+framerate = cfg.DEFAULT_FRAMERATE
+background= resources.getBackground()
 
 while(running):
-    #--------------------------
-    #Render Background
-    screen.blit(resources.getBackground(),topleft)
-    #--------------------------
-    #Scanline
-    for line in scanlines.update():
-        pygame.draw.line(screen,(24,30,24),line[0],line[1],1)
-    #--------------------------
-    #Control Events
-    running = controls.update(menu,game)
-    #--------------------------
-    #States
-    #----Menu and Text State
-    if menu.isActive():
-        screen.blit(menu.update(),topleft)
-    #----Game State
-    elif game.isActive():
-         screen.blit(game.update(),topleft)
-    #--------------------------
-    #Final Rendering
-    screen.blit(resources.getForeground(),topleft)
-    pygame.display.flip()
-    #--------------------------
-    #Frame Control
-    clock.tick(60)
+    running += controls.update(menu,game)
+    if (running == 1):
+        #--------------------------
+        #Render Background
+        screen.blit(background,topleft)
+        #--------------------------
+        #Scanline
+        screen.blit(scanlines.update(),topleft)
+        #--------------------------
+
+        #States
+        #----Menu and Text State
+        if menu.isActive():
+            screen.blit(menu.update(),topleft)
+        #----Game State
+        elif game.isActive():
+            screen.blit(game.update(),topleft)
+        #--------------------------
+        #Final Rendering
+        screen.blit(resources.getForeground(),topleft)
+        pygame.display.flip()
+        #--------------------------
+        #Frame Control
+        clock.tick(framerate)
+    else:
+        pygame.time.wait(500)
 pygame.quit()

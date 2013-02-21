@@ -9,10 +9,15 @@ class Control():
         pygame.event.pump()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
+                return -1
+            elif event.type == pygame.ACTIVEEVENT:
+                if (event.gain == 0 and event.state == 6) or (event.gain == 0 and event.state == 2):
+                    return 1
+                elif (event.gain == 1 and event.state == 6):
+                    return -1
         key = pygame.key.get_pressed()
         if key[pygame.K_ESCAPE]:
-            return False
+            return -1
 
         if menu.isActive():
             self.menuControl(key,menu,game)
@@ -20,7 +25,7 @@ class Control():
         elif game.isActive():
             self.gameControl(key,game)
 
-        return True
+        return 0
 
     def menuControl(self,key,menu,game):
         if menu.getMainMenu():
