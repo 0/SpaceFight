@@ -140,7 +140,7 @@ class Game():
 
     def drawPoly(self, game_object,game_surface):
         poly = game_object.getShape()
-        c_points = [self.to_pygame(point) for point in poly.get_points()]
+        c_points = [self.to_pygame(point) for point in poly.get_vertices()]
         pygame.draw.lines(game_surface, (0,255,0), True, c_points, 1)
 
     def to_pygame(self,p):

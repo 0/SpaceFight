@@ -1,20 +1,16 @@
-Spacefuck was written in Python 2.6.6, originally on a Windows environment.  As none of the libraries used were platform dependent, Spacefuck should run on all platforms with a Python release.  It's been tested on Windows XP through to 7, OSX, and whichever linux distribution O uses.
+Spacefuck was written in Python 2.6.6, originally on a Windows environment. 
+As none of the libraries used are platform exclusive, Spacefuck should run on all major platforms with a Python release. 
+It's been tested on Windows XP through to 7, OSX, and whichever linux distribution O uses.
 
-Spacefuck uses pygame 1.91 and the current version of pymunk (2.1.0), which is a python wrapper for Chipmunk, a C based physics library.
+Spacefuck shows reasonable performance on most post-2006 hardware. We'll be looking to reduce the performance requirements soon.
+
+Spacefuck uses pygame 1.91 and the then current version of pymunk (4.0.0), which is a python wrapper for Chipmunk, a C based physics library.
 
 http://pygame.org
-
 http://code.google.com/p/chipmunk-physics/
-
 http://code.google.com/p/pymunk/
 
-Double praises to 0 (https://github.com/0).  He developed a lot more enthusiasm for updating the game than I did once it was released.
+Double praises to 0 (https://github.com/0) for faithfully updating the game and adding new features. 
 
-
-
-I'm looking to implement some new changes within the near future:
---Migration of game settings to configuration file.
---Gravity in planetoid mode.
---More sophisticated AI
---Performance improvements
---Simpler architecture
+----
+October 29, 2013
