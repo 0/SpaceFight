@@ -2,8 +2,9 @@ import time
 
 
 class Player():
-    def __init__(self,ship,keys):
+    def __init__(self, ship, name, keys):
         self.ship = ship
+        self.name = name
         self.keys = keys
         self.alive = True
         self.thrust_cooldown = time.time()

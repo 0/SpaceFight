@@ -95,34 +95,29 @@ class Asteroid(GameObject):
 class Ship(GameObject):
     TURN_ACCELERATION = 0.35
 
+    body_shapes = [[(0,15),(-5,-10),(0,-10),(5,-10)],
+                   [(0,15),(-7,0),(0,-7),(7,0)]]
+
+    mass = 10
+
     def __init__(self,p_num,angle,pos):
         GameObject.__init__(self)
 
         self.p_num = p_num
 
-        if p_num == 1:
-            self.entity = self.addPoly1(10,angle,pos)
-        elif p_num == 2:
-            self.entity = self.addPoly2(10,angle,pos)
+        if p_num in [0, 1]:
+            self.entity = self.addPoly(self.mass, angle, pos, Ship.body_shapes[p_num])
         else:
             raise ValueError('Invalid player number: %d' % p_num)
 
     def getPlayerNumber(self):
         return self.p_num
 
-    def addPoly1(self,mass,angle,pos):
+    def addPoly(self, mass, angle, pos, points):
         body = pymunk.Body(mass, mass*5)
         body.angle = angle
         body.position = pos
-        shape = pymunk.Poly(body,[(0,15),(-5,-10),(0,-10),(5,-10)])
-        shape.elasticity = 0.75
-        return shape
-
-    def addPoly2(self,mass,angle,pos):
-        body = pymunk.Body(mass, mass*5)
-        body.angle = angle
-        body.position = pos
-        shape = pymunk.Poly(body,[(0,15),(-7,0),(0,-7),(7,0)])
+        shape = pymunk.Poly(body, points)
         shape.elasticity = 0.75
         return shape
 

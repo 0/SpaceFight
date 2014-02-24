@@ -32,19 +32,6 @@ class Control():
             if key[pygame.K_SPACE]:
                 menu.briefing()
                 self.next_press = time.time() + 0.35
-            # TODO: There should be a better way of doing this.
-            if not game.AI_mode[0] and key[pygame.K_q]:
-                game.AI_mode[0] = True
-                menu.setText("^^AI Activated for Player 1")
-            if game.AI_mode[0] and key[pygame.K_w]:
-                game.AI_mode[0] = False
-                menu.setText("^^AI Deactivated for Player 1")
-            if not game.AI_mode[1] and key[pygame.K_a]:
-                game.AI_mode[1] = True
-                menu.setText("^^AI Activated for Player 2")
-            if game.AI_mode[1] and key[pygame.K_s]:
-                game.AI_mode[1] = False
-                menu.setText("^^AI Deactivated for Player 2")
         else:
             if time.time() > self.next_press:
                 if key[pygame.K_SPACE]:

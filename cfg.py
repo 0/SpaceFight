@@ -1,3 +1,12 @@
+import pygame
+
+"""
+Runtime configuration values.
+
+The values set here are defaults, to be overridden elsewhere.
+"""
+
+
 # These values depend on the border images.
 DEFAULT_WIDTH               = 800
 DEFAULT_HEIGHT              = 600
@@ -20,3 +29,13 @@ scanlineSpeed               = DEFAULT_SCANLINE_SPEED
 FALLBACK_BACKGROUND_COLOR   = (24,30,24,32)
 FALLBACK_FOREGROUND_COLOR   = (1,1,1)
 FALLBACK_ICON_COLOR         = (1,1,1)
+
+players = [{}, {}]
+players[0]['name'] = 'Player 1'
+players[0]['mode'] = 'human'
+players[0]['keys'] = {'thrust': pygame.K_w, 'left': pygame.K_a,
+        'right': pygame.K_d, 'shoot': pygame.K_LALT}
+players[1]['name'] = 'Player 2'
+players[1]['mode'] = 'human'
+players[1]['keys'] = {'thrust': pygame.K_i, 'left': pygame.K_j,
+        'right': pygame.K_l, 'shoot': pygame.K_RCTRL}

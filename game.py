@@ -1,3 +1,4 @@
+import math
 import pygame
 import pymunk
 import random
@@ -10,12 +11,6 @@ import player
 
 
 class Game():
-    # TODO: Should place this somewhere better.
-    keys = [{'thrust': pygame.K_w, 'left': pygame.K_a, 'right': pygame.K_d,
-             'shoot': pygame.K_LALT},
-            {'thrust': pygame.K_i, 'left': pygame.K_j, 'right': pygame.K_l,
-             'shoot': pygame.K_RCTRL}]
-
     # XXX: Why 1000?
     PYMUNK_HEIGHT = 1000
 
@@ -42,9 +37,6 @@ class Game():
                 cfg.width - edge_distances['left'] - edge_distances['right'],
                 cfg.height - edge_distances['top'] - edge_distances['bottom'])
         self.bullet_boundaries = pygame.Rect(0, 0, cfg.width, cfg.height)
-
-        # TODO: Associate with the Player objects.
-        self.AI_mode = [False, False]
 
     def start(self):
         self.ending = False
@@ -74,17 +66,23 @@ class Game():
         starty = random.randint(0, self.boundaries.height)
 
         # Absolute (pymunk) starting coordinates.
-        p1_pos = (self.boundaries.x + startx,
-                  self.PYMUNK_HEIGHT - self.boundaries.y - starty)
-        p2_pos = (self.boundaries.x + self.boundaries.width - startx,
-                  self.PYMUNK_HEIGHT - self.boundaries.y -
-                  self.boundaries.height + starty)
+        pos = []
+        pos.append((self.boundaries.x + startx,
+                    self.PYMUNK_HEIGHT - self.boundaries.y - starty))
+        pos.append((self.boundaries.x + self.boundaries.width - startx,
+                    self.PYMUNK_HEIGHT - self.boundaries.y -
+                    self.boundaries.height + starty))
 
-        self.players = [] # "Player 1" will be the 0th player.
-        self.players.append(self.genPlayer(1, p1_pos, random.random() * 6.28,
-            self.AI_mode[0], self.keys[0]))
-        self.players.append(self.genPlayer(2, p2_pos, random.random() * 6.28,
-            self.AI_mode[1], self.keys[1]))
+        self.players = []
+        for i in xrange(2):
+            config = cfg.players[i]
+
+            ship = self.addShip(i, pos[i], random.uniform(0, 2 * math.pi))
+
+            if config['mode'] == 'cpu':
+                self.players.append(ai.ComputerPlayer(ship, config['name'], None))
+            else:
+                self.players.append(player.HumanPlayer(ship, config['name'], config['keys']))
 
         # Use a single obstacle about 10% of the time, in cases when less than
         # 1% of the playing area would be occupied by asteroids.
@@ -105,21 +103,14 @@ class Game():
         if time.time()> self.endtime:
             if self.winner == "":
                 if not self.game_ships:
+                    # TODO: What about players named "Nobody"?
                     self.winner += "Nobody"
                 for ship in self.game_ships:
-                    self.winner += "Player " + str(ship.getPlayerNumber())
+                    self.winner += self.players[ship.getPlayerNumber()].name
             self.active = False
             self.menu.setActive(True)
             self.menu.startMainMenu()
             self.menu.addText(self.winner+" Wins^--------^^"+self.menu.default())
-
-    def genPlayer(self, p_num, pos, angle, AI_mode, keys):
-        ship = self.addShip(p_num, pos, angle)
-
-        if AI_mode:
-            return ai.ComputerPlayer(ship, None)
-        else:
-            return player.HumanPlayer(ship, keys)
 
     def isActive(self):
         return self.active
